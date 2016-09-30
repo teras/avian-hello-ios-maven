@@ -10,7 +10,7 @@ build_target () {
     fi
 
     pushd "$AVIAN" >/dev/null
-    make -j arch=$arch platform=ios $sim process=compile bootimage=true build/$vm_build_target/binaryToObject/binaryToObject build/$vm_build_target/bootimage-generator build/$vm_build_target/libavian.a $build_jar
+    make -j arch=$arch platform=ios $sim process=compile bootimage=true build/$vm_build_target/bootimage-generator build/$vm_build_target/libavian.a $build_jar
     popd >/dev/null
 
     cp "$AVIAN/build/$vm_build_target/bootimage-generator" "$CACHE/bin/bootimage-generator.$arch"
