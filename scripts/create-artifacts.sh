@@ -22,24 +22,20 @@ build_target () {
 }
 
 cd `dirname $0`
-CACHE=build
+AVIAN=../avian
+CACHE=../build
 
+mkdir -p "$AVIAN"
+rm -rf "$CACHE"
+mkdir -p "$CACHE"
 
-AVIAN=avian
+AVIAN=$(cd "$AVIAN"; pwd)
+CACHE=$(cd "$CACHE"; pwd)
 
 if [ ! -f "$AVIAN/src/avian/common.h" ] ; then
     echo "Fetching Avian"
-    git clone https://github.com/ReadyTalk/avian.git || exit 1
+    (cd .. ; git clone https://github.com/ReadyTalk/avian.git) || exit 1
 fi
-
-pushd "$AVIAN" >/dev/null
-AVIAN=`pwd`
-popd >/dev/null
-rm -rf "$CACHE"
-mkdir -p "$CACHE"
-pushd "$CACHE" >/dev/null
-CACHE=$CACHE
-popd >/dev/null
 
 echo "Compiling VM"
 mkdir -p "$CACHE/bin"
@@ -73,3 +69,11 @@ echo "Installing maven plugin"
 mvn -q install:install-file -Dfile=${CACHE}/nativelib.jar -DgroupId=org.crossmobile -DartifactId=avian-ios-maven-lib -Dversion=0.1 -Dpackaging=jar -Dclassifier=nativelib
 mvn -q install:install-file -Dfile=${CACHE}/classpath.jar    -DgroupId=org.crossmobile -DartifactId=avian-ios-maven-lib -Dversion=0.1 -Dpackaging=jar -Dclassifier=classpath
 
+echo -n "Do you want to remove build files and avian repository? [Y/n] "
+read R
+R=$(echo ${R:0:1} | awk '{print toupper($0)}')
+if [ "$R" != "N" ] ; then
+    echo "Deleting $AVIAN $CACHE"
+    rm -rf "$AVIAN"
+    rm -rf "$CACHE"
+fi

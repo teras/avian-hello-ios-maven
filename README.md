@@ -5,7 +5,7 @@ Avian and the original "hello-ios" project can be found at https://github.com/Re
 https://github.com/ReadyTalk/hello-ios first.
 
 To compile and run this project, please follow the following steps on a macOS machine.
-*  Run the `create-artifacts.sh` script. This script will fetch Avian, compile it, and create the maven artifact with
+*  Run script `./scripts/create-artifacts.sh` . This script will fetch Avian, compile it, and create the maven artifact with
 the required files. This procedure needs to be done only once (or when Avian gets updated). Note that when the
 procedure will finish sucessfully, it is possible to delete this file, as well as folders `avian` and `build`.
 *  Open XCode file `TestProject.xcodeproj` and run project. Note that, under the hood, the project will launch mvn if
